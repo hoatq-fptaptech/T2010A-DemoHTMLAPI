@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Connect API</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <input type="text" name="categoryName" placeholder="Category Name"/>
+    <button onclick="addCategory()" type="button">Add Category</button>
+    <ul id="categories">
+    </ul>
+<script type="text/javascript">
+    var token =  localStorage.getItem("token")//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJUMjAxMEFKV1RTZXJ2aWNlIiwianRpIjoiYzE3Y2Q5NGYtNDdkMS00NWFjLWExYmQtOGJmOWU3NDMwYjQxIiwiaWF0IjoiMi83LzIyIDE6NTE6MzAgUE0iLCJJZCI6IjEiLCJVc2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjQ0MzAzMDkwLCJpc3MiOiJUMjAxMEFzZXJ2aWNlQUFwaVdpdEpXVCIsImF1ZCI6IkNsaWVudFNlcnZpY2VVc2luZ1Rva2VuIn0.ZldWKCaBylQm63jOphIdGZn3GDd6PgTByf9cyTtDZpc";
+    $.ajax({
+        url:"https://localhost:44396/api/Categories",
+        method:"GET",
+        headers:{"Authorization":"Bearer "+token},
+        success: function (data){
+            for(var i=0;i<data.length;i++){
+                $("#categories").append("<li>"+data[i].categoryName+"</li>");
+            }
+        }
+
+    });
+    function addCategory(){
+        var catName = $("input[name=categoryName]").val();
+        $.ajax({
+            url:"https://localhost:44396/api/Categories",
+            method:"POST",
+            data:JSON.stringify({categoryName:catName,categoryImage:"~/Uploads/gcp-architecture.jpg"}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers:{"Authorization":"Bearer "+token},
+            success: function (data){
+                $("#categories").append("<li>"+data.categoryName+"</li>");
+            }
+        });
+    }
+</script>
+</body>
+</html>

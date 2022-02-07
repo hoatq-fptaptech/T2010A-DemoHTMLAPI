@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <input type="text" name="Username" placeholder="Username"/>
+  <input type="password" name="Password" placeholder="Password"/>
+  <button type="button" onclick="login()">Login</button>
+<script type="text/javascript">
+  function login(){
+    var u = $("input[name=Username]").val();
+    var p = $("input[name=Password]").val();
+    $.ajax({
+      url:"https://localhost:44396/api/Login/Login",
+      method:"POST",
+      data:JSON.stringify({Username:u,Password:p}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success:function(rs){
+         console.log(rs);
+         localStorage.setItem("token",rs);
+      }
+    })
+  }
+</script>
+</body>
+</html>
